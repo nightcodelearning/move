@@ -7,6 +7,7 @@ import android.util.Log;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+import com.example.move.HomeActivity;
 
 public class AmplifyCognito {
 
@@ -20,13 +21,12 @@ public class AmplifyCognito {
     public void signUp(String email, String username, String password){
         AuthSignUpOptions options = AuthSignUpOptions.builder()
                 .userAttribute(AuthUserAttributeKey.email(), email)
-                .userAttribute(AuthUserAttributeKey.name(),username)
                 .build();
 
         Amplify.Auth.signUp(username, password, options,
                 result -> {
                     Log.i("AuthQuickStart", "Result: " + result.toString());
-                    //loadConfirm(username);
+                    loadConfirm(username);
                 },
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)
         );
@@ -35,18 +35,18 @@ public class AmplifyCognito {
 
 
 
-//    public void confirm (String username, String code){
-//
-//        Amplify.Auth.confirmSignUp(
-//                username,
-//                code,
-//                result ->{ Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete");
-//                    loadLogin();
-//                },
-//                error -> {Log.e("AuthQuickstart", error.toString());}
-//        );
-//
-//    }
+    public void confirm (String username, String code){
+
+        Amplify.Auth.confirmSignUp(
+                username,
+                code,
+                result ->{ Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete");
+                    loadLogin();
+                },
+                error -> {Log.e("AuthQuickstart", error.toString());}
+        );
+
+    }
 
 
 
@@ -54,30 +54,50 @@ public class AmplifyCognito {
         Amplify.Auth.signIn(
                 username,
                 password,
-                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+                result -> {
+                    Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
+                    loadHome(username);
+                },
                 error -> Log.e("AuthQuickstart", error.toString())
         );
 
     }
+
 
 
     public void signOut(){
         Amplify.Auth.signOut(
-                () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                () -> {
+                    Log.i("AuthQuickstart", "Signed out successfully");
+                    loadLogin();
+                },
                 error -> Log.e("AuthQuickstart", error.toString())
         );
     }
 
-//    private void loadConfirm(String username) {
-//        Intent intent = new Intent(context, ConfirmActivity.class);
-//        intent.putExtra("username",username);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(intent);
-//    }
-//
-//    private void loadLogin() {
-//        Intent intent = new Intent(context, SignInActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(intent);
-//    }
+    private void loadConfirm(String username) {
+        Intent intent = new Intent(context, ConfirmActivity.class);
+        intent.putExtra("username",username);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void loadLogin() {
+        Intent intent = new Intent(context, SignInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void loadSignUp() {
+        Intent intent = new Intent(context, SignUpActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    private void loadHome(String username){
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("username",username);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

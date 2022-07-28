@@ -19,13 +19,18 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        val amplifyCognito = AmplifyCognito(this)
 
         binding.btnSignup.setOnClickListener{
             val strUserName: String = binding.etUsername.text.toString()
             val strEmail: String = binding.etEmail.text.toString()
             val strPassword: String = binding.etPassword.text.toString()
-            val amplifyCognito = AmplifyCognito(this)
+
             amplifyCognito.signUp(strEmail,strUserName,strPassword);
+        }
+
+        binding.btnSignIn.setOnClickListener{
+            amplifyCognito.loadLogin();
         }
 
 

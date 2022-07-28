@@ -6,6 +6,7 @@
     <string name="email">Enter email</string>
     <string name="password">Enter Password</string>
     <string name="signupbtn">Sign Up</string>
+    <string name="login">login</string>
 
     <!--CONFIRM -->
     <string name="code">Enter Code</string>
