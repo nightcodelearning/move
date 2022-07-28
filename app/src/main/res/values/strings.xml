@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">move</string>
+
+    <!--SIGN UP -->
+    <string name="username">Enter username</string>
+    <string name="email">Enter email</string>
+    <string name="password">Enter Password</string>
+    <string name="signupbtn">Sign Up</string>
+
+    <!--CONFIRM -->
+    <string name="code">Enter Code</string>
+    <string name="verify">verify</string>
+
+    <!--logout -->
+    <string name="logout">Logout</string>
+
+</resources>
